@@ -1,0 +1,1131 @@
+
+% Default to the notebook output style
+% Inherit from the specified cell style.
+\documentclass[11pt]{article}
+    \usepackage[T1]{fontenc}
+    % Nicer default font (+ math font) than Computer Modern for most use cases
+    \usepackage{mathpazo}
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % We will generate all images so they have a width \maxwidth. This means
+    % that they will get their normal width if they fit onto the page, but
+    % are scaled down if they would overflow the margins.
+    \makeatletter
+    \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth
+    \else\Gin@nat@width\fi}
+    \makeatother
+    \let\Oldincludegraphics\includegraphics
+    % Set max figure width to be 80% of text width, for now hardcoded.
+    \renewcommand{\includegraphics}[1]{\Oldincludegraphics[width=.8\maxwidth]{#1}}
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionLabelFormat{nolabel}{}
+    \captionsetup{labelformat=nolabel}
+
+    \usepackage{adjustbox} % Used to constrain images to a maximum size 
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+    \usepackage[mathletters]{ucs} % Extended unicode (utf-8) support
+    \usepackage[utf8x]{inputenc} % Allow utf-8 characters in the tex document
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics 
+                         % to support a larger range 
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    
+
+    
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+    
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    
+    
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatability definitions
+    \def\gt{>}
+    \def\lt{<}
+    % Document parameters
+    \title{Udacity's Machine Learning Engineer Nanodegreee Capstone Project
+Program \\ New York City Taxi Trip Duration}
+	
+	\author{Luciano Falqueto Santana}
+   
+  
+     % Pygments definitions
+    
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\expandafter\def\csname PY@tok@w\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\expandafter\def\csname PY@tok@c\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.74,0.48,0.00}{##1}}}
+\expandafter\def\csname PY@tok@k\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\expandafter\def\csname PY@tok@o\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ow\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@ne\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.82,0.25,0.23}{##1}}}
+\expandafter\def\csname PY@tok@nv\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@no\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ni\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.60,0.60,0.60}{##1}}}
+\expandafter\def\csname PY@tok@na\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.49,0.56,0.16}{##1}}}
+\expandafter\def\csname PY@tok@nt\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@s\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sd\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@si\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@se\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sr\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@ss\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sx\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@m\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@gh\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gu\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gr\endcsname{\def\PY@tc##1{\textcolor[rgb]{1.00,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ge\endcsname{\let\PY@it=\textit}
+\expandafter\def\csname PY@tok@gs\endcsname{\let\PY@bf=\textbf}
+\expandafter\def\csname PY@tok@gp\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@go\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.53,0.53}{##1}}}
+\expandafter\def\csname PY@tok@gt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\expandafter\def\csname PY@tok@err\endcsname{\def\PY@bc##1{\setlength{\fboxsep}{0pt}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}
+\expandafter\def\csname PY@tok@kc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kd\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kr\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@bp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@fm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@vc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vg\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sa\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@dl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s2\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s1\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@mb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@il\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mo\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ch\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cm\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cpf\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@c1\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cs\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % Exact colors from NB
+    \definecolor{incolor}{rgb}{0.0, 0.0, 0.5}
+    \definecolor{outcolor}{rgb}{0.545, 0.0, 0.0}
+
+
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy 
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+    \begin{document}
+    
+    
+    \maketitle
+    
+    \tableofcontents{}
+    
+\section{Introduction}
+
+\hspace{0.5cm} 
+The final goal for the Capstone Project is to solve one Kaggle Challenge, called \textbf{New York City Taxi Trip Duration}. The challenge proposal is to build a model capable of predicting the total duration of taxi trip in New York City using historic data provided in the Challenge page. The dataset includes pickup and drop-off time, pickup and drop-off coordinates, trip duration and number of passengers among other variables.
+
+The dataset provided is already cleaned, allowing to direct focusing on the problem itself, the next step are analyze all the provided fields, make the feature engineering for the dataset, select the most relevant fields after pre-processing them, build the model and evaluate it.
+   
+
+\section{Problem Statement}\label{problem-statement}
+
+
+\hspace{0.5cm} The competition dataset is based on the \href{https://cloud.google.com/bigquery/public-data/nyc-tlc-trips}{2016
+NYC Yellow Cab trip record data} made available in Big Query on Google
+Cloud Platform. The data was originally published by the
+\href{http://www.nyc.gov/html/tlc/html/about/trip_record_data.shtml}{NYC
+Taxi and Limousine Commission (TLC)}. The data was originally published by the
+\href{http://www.nyc.gov/html/tlc/html/about/trip_record_data.shtml}{NYC
+Taxi and Limousine Commission (TLC)}. \cite{challenge_site} The data was sampled and cleaned for the purposes of the challenge. 
+
+Based the attributes of each trip present in the provided train dataset which also provide true values for the target variable \texttt{trip\_duration}, the goal is to predict the duration for each trip presetn and characterized in the test dataset.
+
+\section{Dataset}
+
+\hspace{0.5cm}Two datasets are provided by the Challenge, the \textbf{Train} dataset with 1,458,644 trip records and the \textbf{Test} dataset with 625,134 trip records. Both datasets are in CSV format and were originally published by the NYC Taxi and Limousine Commission (TLC)\cite{challenge_site}.\\
+
+\noindent The data fields, as seen in the challenge's website:
+
+\begin{itemize}
+\item \texttt{id} - a unique identifier for each trip
+\item \texttt{vendor\_id} - a code indicating the provider associated with the trip record
+\item \texttt{pickup\_datetime} - date and time when the meter was engaged
+\item \texttt{dropoff\_datetime} - date and time when the meter was disengaged
+\item \texttt{passenger\_count} - the number of passengers in the vehicle (driver entered value)
+\item \texttt{pickup\_longitude} - the longitude where the meter was engaged
+\item \texttt{pickup\_latitude} - the latitude where the meter was engaged
+\item \texttt{dropoff\_longitude} - the longitude where the meter was disengaged
+\item \texttt{dropoff\_latitude} - the latitude where the meter was disengaged
+\item \texttt{store\_and\_fwd\_flag} - This flag indicates whether the trip record was held in vehicle memory before sending to the vendor because the vehicle did not have a connection to the server - Y=store and forward; N=not a store and forward trip
+\item \texttt{{trip\_duration}} - duration of the trip in seconds
+\end{itemize}
+
+\noindent The Target Variable:\\
+
+The challenge objective is to find values for trip\_duration for each trip in the \textbf{Test} dataset with a model trained using the information known from the \textbf{Train} dataset.
+
+In more technical words as the origin data is already cleaned and prepared for processing, the first step to be done is the Feature Engineering, i.e. to analyze and prepare each field, select the most relevant ones. After this step, starts the data modeling phase and the model evaluation and fine tuning.
+            
+\section{Data Exploration and Feature engineering}
+
+\hspace{0.5cm} For the data exploration we will be using \href{https://matplotlib.org/}{Matplotlib} and \href{https://seaborn.pydata.org/}{Seaborn} packets, besisdes the Pandas packet, which will be used throughout the whole project.
+
+We will be exploring the data present in all the columns, understanding how the data is distributed and considering
+
+The data provided was already processed and there are no null values in any of the columns as can be seen:
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\hspace{1.5cm}}
+        vendor_id             0
+        pickup_datetime       0
+        dropoff_datetime      0
+        passenger_count       0
+        pickup_longitude      0
+        pickup_latitude       0
+        dropoff_longitude     0
+        dropoff_latitude      0
+        store_and_fwd_flag    0
+        trip_duration         0
+        dtype: int64
+\end{Verbatim}
+
+\subsection{Trip duration}
+
+\hspace{0.5cm} First we will describe the \texttt{trip\_duration} with simple statistical measurements like count, mean, standard deviation, quartlies and minimum and maximum values for the distribution:
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\hspace{1.5cm}} 
+count   1458644.000000
+mean        959.492273
+std        5237.431724
+min           1.000000
+25%         397.000000
+50%         662.000000
+75%        1075.000000
+max     3526282.000000
+Name: trip_duration, dtype: float64
+\end{Verbatim}
+
+By the column description a few things come clear even though the data was pre-processed, no outliers were removed, that becomes quite clear by comparing the values of mean being much smaller than the std (standard deviation) and the maximum value for the distribution representing a trip almost 41 days long, which is not reasonable. A better way to confirm these assumptions is to plot the column values:
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{./images/raw_trip_duration.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+The graph confirm our assumption about the data, there are outliers in the distribution that must be removed before training the models, also as the distribution is skewed we will apply a log transform to the values in the column to achieve a better fit to the model.
+\subsection{Geo Location Coordinates}
+
+\hspace{0.5cm}As we are speaking about coordinates, the best way to understanding the pickup and dropoff locations and how they are distributed in the dataset and check for outliers is a simple plot for each of the coordinates present in the data set:\texttt{pickup\_latitude}, \texttt{pickup\_longitude}, \texttt{dropoff\_latitude} and \texttt{dropoff\_longitude}:
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{./images/raw_latlong.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+The graph above show, as expected, most of the data is within the New York City bounding box, which is defined by the coordinates: (40.4774,-74.2589), ( 40.9176, -73.7004). However is also clear that there are a lot of outliers in the data, since there are latitude points ranging from around 32 to around 44 and longitude points from around -120 and around -60. Those values must be dropped before training the model
+
+The lat-long coordinates can still be very useful, since some areas within the city have more traffic than others, impacting in the trip duration. To create zones inside the city, we will be using the lat-long for both the pickup place and dropoff place, but with the values rounded up to the third decimal place, with that we define areas in the city with the precision of approximately 111.32 m of radius \cite{lat_long_round_radius}
+    
+ \subsection{Distance and Average Speed}   
+ 
+\hspace{0.5cm} Since the dataset provide a pickup point and a dropoff point, the obvious information that is possible to extract from that is the distance between the points, but since the distance is within a city and cities are formed by rectangular blocks, the distance between two points is better represented if we measure the \href{https://en.wikipedia.org/wiki/Taxicab_geometry}{taxicab metric or Manhattan distance}, which is, in a simple way, the sum of the distance in the latitude axis summed with the distance in the longitude axis.
+ 
+%  TODO: change the formula to the true one and format it in th notebook
+ 
+     \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}}
+\PY{n}{NYC\PYZus{}DEGREE\PYZus{}KM} \PY{o}{=} \PY{l+m+mf}{111.05938787411571}
+
+\PY{k}{def} \PY{n+nf}{calculate\PYZus{}city\PYZus{}block\PYZus{}distance}\PY{p}{(}\PY{n}{df\PYZus{}data}\PY{p}{)}\PY{p}{:}
+    \PY{n}{delta\PYZus{}lat} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{absolute}\PY{p}{(}\PY{n}{df\PYZus{}data}\PY{o}{.}\PY{n}{pickup\PYZus{}latitude} \PY{o}{\PYZhy{}} \PY{n}{df\PYZus{}data}\PY{o}{.}\PY{n}{dropoff\PYZus{}latitude}\PY{p}{)} \PY{o}{*} \PY{n}{NYC\PYZus{}DEGREE\PYZus{}KM}    
+    \PY{n}{delta\PYZus{}lon} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{absolute}\PY{p}{(}\PY{n}{df\PYZus{}data}\PY{o}{.}\PY{n}{pickup\PYZus{}longitude} \PY{o}{\PYZhy{}} \PY{n}{df\PYZus{}data}\PY{o}{.}\PY{n}{dropoff\PYZus{}longitude}\PY{p}{)} \PY{o}{*} \PY{n}{NYC\PYZus{}DEGREE\PYZus{}KM}    
+    \PY{k}{return} \PY{n}{delta\PYZus{}lat} \PY{o}{+} \PY{n}{delta\PYZus{}lon}
+    
+\PY{n}{df\PYZus{}train}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{avg\PYZus{}speed}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{df\PYZus{}train}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{distance}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{/}\PY{p}{(}\PY{n}{df\PYZus{}train}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{trip\PYZus{}duration}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{/}\PY{l+m+mi}{3600}\PY{p}{)}
+    \end{Verbatim}
+ 
+ After calculating the distance and by having the trip duration, we are able to calculate the average speed for each trip. After converting the trip duration to hours and dividing the distance by that value, we find the average speed for the trip.
+ 
+ Since the two variables are extremely connected, we will shall analyze the graphs from both side by side.
+ 
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{./images/raw_distance_speed.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+ 
+ As can be seen, here we will also find outliers, from the distance side the graph show values from zero to around 1300km and, by the average speed side, show speeds as high as 12,000 km/h, a speed well above the Land speed record of 1,227.985 km/h \cite{land_speed_record}
+ 
+ The average speed cannot be used to create a feature, once it depends on the trip duration, which we want to calculate, thus it can only be used to filter values that will add spurious information to our model. That said the average speed will be dropped before training the model.
+
+ \subsection{Picukp Datetime} 
+ 
+\hspace{0.5cm} The date and time that the passenger was picked up is also a very important feature. 
+ 
+ \begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{df\PYZus{}train}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{pickup\PYZus{}date}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{df\PYZus{}train}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{pickup\PYZus{}datetime}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{dt}\PY{o}{.}\PY{n}{date}
+\PY{n}{df\PYZus{}train}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{pickup\PYZus{}hour}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{df\PYZus{}train}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{pickup\PYZus{}datetime}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{dt}\PY{o}{.}\PY{n}{hour}
+\PY{n}{df\PYZus{}train}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{pickup\PYZus{}weekday}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{df\PYZus{}train}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{pickup\PYZus{}datetime}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{dt}\PY{o}{.}\PY{n}{day\PYZus{}name}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+ 
+ Regarding the hours, we can apply the same line of reasoning, as the hours of the day present a typical behavior regarding traffic, for example, all big cities have their "Rush Hour" during which you can find a lot of traffic. The graph bellow illustrate that well.
+ 
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{./images/raw_trip_duration_by_pickup_hour.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+ 
+ Speaking about the days each day of the week presents a typical behaviour is of common sense, for example that in weekdays the traffic is heavier than in weekends, what affects the trip duration. In that same line, in holidays a lighter traffic is expected. Bellow are the graph for average trip duration each day of the week and a graph comparing the holidays to normal days.
+
+ 
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{./images/raw_weekday_trip_duration_by_pickup_hour.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{./images/raw_holiday_trip_duration_by_pickup_hour.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    
+    
+\subsection{Store and Forward} 
+
+\hspace{0.5cm}The store and forward is a Boolean that at first look may not give any information about the trip duration, but looking the graph bellow, it becomes clear there is a difference between the two. That difference may be explained by the technologies available to drivers like navigation apps, Internet or more modern cars.
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{./images/raw_store_and_fwd_flag_trip_duration_by_pickup_hour.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+
+\subsection{Vendor ID} 
+
+\hspace{0.5cm} A naive analysis could lead to a misconception regarding the Vendor ID as a not useful information, but given that technology has changed the private transportation market, a good routing or driver selection algorithm or payment method can make a difference in the trip\_duration. In the whole dataset, there are only 2 different vendors and both present a very different behaviour in trip duration as can be seen in the graph bellow.
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{./images/raw_vendor_id_trip_duration_by_pickup_hour.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+\subsection{Number of Passengers} 
+
+\hspace{0.5cm}In the same way as the previous analysis, it's worth to check the behavior of the number of passengers transported and if it might give more information about the trip duration.
+
+As can be seen bellow, the graph of number of passengers shows a similar behavior for each number of passengers.
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{./images/raw_passenger_count_trip_duration_by_pickup_hour.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+\section{Processing and filtering the Data}
+
+\hspace{0.5cm} After knowing better our data, it's time to process it filtering the outliers and transforming the data to a more adequate form to train the models.
+
+After creating some other features in the previous section,besides having the original set of columns vendor id, pickup datetime, dropoff datetime, passenger count, pickup longitude, pickup latitude, dropoff longitude, dropoff latitude, store and fwd flag and trip duration, we now have some other features like distance, average speed, day of the week, hour of day and holiday.
+
+\subsection{Trip Duration}
+
+\hspace{0.5cm}As observed we have a relevant number of outliers in the dataset for trip duration, so first, we must filter those values and to do that we will apply the
+\href{https://en.wikipedia.org/wiki/Interquartile_range}{Interquartile Range} technique. As the minimum values are still very low, we will also filter any values less than 60 seconds.
+
+
+Other features that can be easily filtered are the pickup and dropoff coordinates for that we define the bouncing box coordinates for New York City, here we define only two points to define that the top left point (north-east) and the bottom right (south-west) the coordinates are, respectively, (40.4774,-74.2589) and ( 40.9176, -73.7004). Bellow we filter the datapoints that are out of that box.
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}} 
+\PY{n}{NYC\PYZus{}BOUNDING\PYZus{}BOX} \PY{o}{=} \PY{p}{[}\PY{p}{(}\PY{l+m+mf}{40.4774}\PY{p}{,}\PY{o}{\PYZhy{}}\PY{l+m+mf}{74.2589}\PY{p}{)}\PY{p}{,} \PY{p}{(} \PY{l+m+mf}{40.9176}\PY{p}{,} \PY{o}{\PYZhy{}}\PY{l+m+mf}{73.7004}\PY{p}{)}\PY{p}{]}
+        
+\PY{n}{filter\PYZus{}lat\PYZus{}long} \PY{o}{=} \PY{n}{df\PYZus{}train}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{pickup\PYZus{}latitude}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{\PYZlt{}} \PY{n}{NYC\PYZus{}BOUNDING\PYZus{}BOX}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
+\PY{n}{filter\PYZus{}lat\PYZus{}long} \PY{o}{\PYZam{}}\PY{o}{=} \PY{n}{df\PYZus{}train}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{pickup\PYZus{}latitude}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{\PYZgt{}} \PY{n}{NYC\PYZus{}BOUNDING\PYZus{}BOX}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
+\PY{n}{filter\PYZus{}lat\PYZus{}long} \PY{o}{\PYZam{}}\PY{o}{=} \PY{n}{df\PYZus{}train}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{pickup\PYZus{}longitude}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{\PYZlt{}} \PY{n}{NYC\PYZus{}BOUNDING\PYZus{}BOX}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}
+\PY{n}{filter\PYZus{}lat\PYZus{}long} \PY{o}{\PYZam{}}\PY{o}{=} \PY{n}{df\PYZus{}train}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{pickup\PYZus{}longitude}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{\PYZgt{}} \PY{n}{NYC\PYZus{}BOUNDING\PYZus{}BOX}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}
+
+\PY{n}{filter\PYZus{}lat\PYZus{}long} \PY{o}{\PYZam{}}\PY{o}{=} \PY{n}{df\PYZus{}train}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{dropoff\PYZus{}latitude}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{\PYZlt{}} \PY{n}{NYC\PYZus{}BOUNDING\PYZus{}BOX}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
+\PY{n}{filter\PYZus{}lat\PYZus{}long} \PY{o}{\PYZam{}}\PY{o}{=} \PY{n}{df\PYZus{}train}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{dropoff\PYZus{}latitude}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{\PYZgt{}} \PY{n}{NYC\PYZus{}BOUNDING\PYZus{}BOX}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
+\PY{n}{filter\PYZus{}lat\PYZus{}long} \PY{o}{\PYZam{}}\PY{o}{=} \PY{n}{df\PYZus{}train}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{dropoff\PYZus{}longitude}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{\PYZlt{}} \PY{n}{NYC\PYZus{}BOUNDING\PYZus{}BOX}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}
+\PY{n}{filter\PYZus{}lat\PYZus{}long} \PY{o}{\PYZam{}}\PY{o}{=} \PY{n}{df\PYZus{}train}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{dropoff\PYZus{}longitude}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{\PYZgt{}} \PY{n}{NYC\PYZus{}BOUNDING\PYZus{}BOX}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}
+\end{Verbatim}
+
+Now we can search for outliers in the speed distribution speed, but now, we won't be using the interquartile range technique, since small values for average speed can be expected in some hours of the day. To filter the data, we will only use our understanding from the nature of the problem, thus we will filter any values less than 1 km/h or grater than 100 Km/h.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}} 
+\PY{n}{df\PYZus{}train} \PY{o}{=} \PY{n}{df\PYZus{}train}\PY{p}{[}\PY{n}{df\PYZus{}train}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{avg\PYZus{}speed}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{\PYZlt{}} \PY{l+m+mi}{100}\PY{p}{]}
+\PY{n}{df\PYZus{}train} \PY{o}{=} \PY{n}{df\PYZus{}train}\PY{p}{[}\PY{n}{df\PYZus{}train}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{avg\PYZus{}speed}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{\PYZgt{}} \PY{l+m+mi}{1}\PY{p}{]}
+\end{Verbatim}
+
+    
+\subsection{Passenger Count}
+
+\hspace{0.5cm}There are some spurious values for passenger count, as can be seen bellow:
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}3}]:} 1    1033540
+        2     210318
+        5      78088
+        3      59896
+        6      48333
+        4      28404
+        0         60
+        7          3
+        9          1
+        8          1
+        Name: passenger\_count, dtype: int64
+\end{Verbatim}
+
+So we must filter any values of Passenger count equal to zero or greater than 6;
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{df\PYZus{}train} \PY{o}{=} \PY{n}{df\PYZus{}train}\PY{p}{[}\PY{n}{df\PYZus{}train}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{passenger\PYZus{}count}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{\PYZgt{}}\PY{l+m+mi}{0}\PY{p}{]}
+\PY{n}{df\PYZus{}train} \PY{o}{=} \PY{n}{df\PYZus{}train}\PY{p}{[}\PY{n}{df\PYZus{}train}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{passenger\PYZus{}count}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{\PYZlt{}}\PY{l+m+mi}{7}\PY{p}{]}
+\end{Verbatim}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\hspace{1.5cm}}        travel\_distance\_km
+         count        1.458644e+06
+         mean         5.102859e+00
+         std          6.637813e+00
+         min          0.000000e+00
+         25\%          1.788463e+00
+         50\%          3.043757e+00
+         75\%          5.610539e+00
+         max          1.435183e+03
+\end{Verbatim}
+
+\subsection{One-hot enconding the Categorical Variables}  
+
+\hspace{0.5cm}To be properly used in supervised learning models the categorical fields independent of its type, must be transformed, since wrong information can be added to the model. One classical example of that are numerical categories where there is a logic relation between the numbers (greater than, sequences, , ratios, etc.) that might not exist in the category itself.
+
+We will apply the pandas function get\_dummies to transform the columns vendor\_id, passenger\_count,store\_and\_fwd\_flag, pickup\_weekday, pickup\_hour, holiday.
+ 
+    \begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{cols} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{vendor\PYZus{}id}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{passenger\PYZus{}count}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{store\PYZus{}and\PYZus{}fwd\PYZus{}flag}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+                \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{pickup\PYZus{}weekday}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{pickup\PYZus{}hour}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{holiday}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+\PY{n}{df\PYZus{}train} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{get\PYZus{}dummies}\PY{p}{(}\PY{n}{df\PYZus{}train}\PY{p}{,} \PY{n}{columns}\PY{o}{=}\PY{n}{cols}\PY{p}{)}
+\end{Verbatim}
+  
+\subsection{Dropping Columns}  
+
+\hspace{0.5cm}Now we have all our features we must drop the columns that we will no use to train the model. They are as follows: pickup\_longitude, pickup\_latitude, dropoff\_longitude, dropoff\_latitude, pickup\_datetime, pickup\_date.
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{cols} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{pickup\PYZus{}longitude}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{pickup\PYZus{}latitude}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{dropoff\PYZus{}longitude}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+                \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{dropoff\PYZus{}latitude}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{pickup\PYZus{}datetime}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{pickup\PYZus{}date}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{avg\PYZus{}speed}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+\PY{n}{df\PYZus{}train}\PY{o}{.}\PY{n}{drop}\PY{p}{(}\PY{n}{cols}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{inplace}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+\end{Verbatim}
+  
+
+
+\subsection{Log Transformation}
+
+\hspace{0.5cm}As the last step, since we found two skewed columns in the previous section we will make the log transform of those columns. Log transformation can reduce the skewness and make a non-linear distribution become linear.
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{df\PYZus{}train}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{trip\PYZus{}duration}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{log}\PY{p}{(}\PY{n}{df\PYZus{}train}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{trip\PYZus{}duration}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{+} \PY{l+m+mi}{1}\PY{p}{)}
+\PY{n}{df\PYZus{}train}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{distance}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{log}\PY{p}{(}\PY{n}{df\PYZus{}train}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{distance}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{+} \PY{l+m+mi}{1}\PY{p}{)}
+\end{Verbatim}
+   
+\section{Training}
+
+\hspace{0.5cm}In this section we will cover each step made to train the models and evaluate the best ones
+   
+\subsection{The Train/Test Split}
+   
+\hspace{0.5cm}The first step to train a model is to define a Train dataset and a test dataset, for that we will split the original train dataset provided. We will be using 70\% of the original dataset for training the model and the other 30\% to validade the model and calculate the score
+
+To split the data we use the pandas function train\_test\_split as follows:
+
+\begin{Verbatim}[commandchars=\\\{\}]
+ \PY{n}{X\PYZus{}train}\PY{p}{,} \PY{n}{X\PYZus{}test}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}test} \PY{o}{=} \PY{n}{train\PYZus{}test\PYZus{}split}\PY{p}{(}\PY{n}{df\PYZus{}X\PYZus{}train}\PY{p}{,}
+                \PY{n}{df\PYZus{}y\PYZus{}train}\PY{p}{,}
+                \PY{n}{test\PYZus{}size} \PY{o}{=} \PY{l+m+mf}{0.3}\PY{p}{,}
+                \PY{n}{random\PYZus{}state} \PY{o}{=} \PY{l+m+mi}{3}\PY{p}{)}
+\end{Verbatim}
+
+\subsection{The Score Function}
+
+\hspace{0.5cm}The same evaluation metric used to rank the competitors in the Kaggle competition will be used here, the metric will be the Root Mean Square Logarithmic Error (RMSLE), given by:
+\begin{equation}
+    \epsilon = \frac{1}{n^s} \sqrt{\sum_{i=1}^{n} (\log(p_i+1) - \log(a_i+1))^2}
+\end{equation}
+Where:
+\begin{itemize}
+\item $\epsilon$ is the RMSLE value (score);
+\item n is the total number of observations in the (public/private) data set;
+\item $p_i$ is your prediction of trip duration;
+\item $a_i$ is the actual trip duration for i;
+\item $log(x)$ is the natural logarithm of x.
+\end{itemize}
+
+The Score Function is implememented as follows:
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{def} \PY{n+nf}{kaggle\PYZus{}score}\PY{p}{(}\PY{n}{y\PYZus{}true\PYZus{}exp}\PY{p}{,} \PY{n}{y\PYZus{}pred\PYZus{}exp}\PY{p}{)}\PY{p}{:}
+            \PY{n}{y\PYZus{}pred\PYZus{}exp} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{exp}\PY{p}{(}\PY{n}{y\PYZus{}pred\PYZus{}exp}\PY{p}{)} \PY{o}{\PYZhy{}} \PY{l+m+mi}{1}
+            \PY{n}{y\PYZus{}true\PYZus{}exp} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{exp}\PY{p}{(}\PY{n}{y\PYZus{}true\PYZus{}exp}\PY{p}{)} \PY{o}{\PYZhy{}} \PY{l+m+mi}{1}
+            \PY{n}{e\PYZus{}log\PYZus{}square} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{square}\PY{p}{(} \PY{n}{np}\PY{o}{.}\PY{n}{log}\PY{p}{(}\PY{n}{y\PYZus{}pred\PYZus{}exp} \PY{o}{+} \PY{l+m+mi}{1}\PY{p}{)} \PY{o}{\PYZhy{}} \PY{n}{np}\PY{o}{.}\PY{n}{log}\PY{p}{(}\PY{n}{y\PYZus{}true\PYZus{}exp} \PY{o}{+} \PY{l+m+mi}{1}\PY{p}{)}\PY{p}{)}
+            \PY{n}{score} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{p}{(}\PY{l+m+mi}{1}\PY{o}{/}\PY{n+nb}{len}\PY{p}{(}\PY{n}{y\PYZus{}true\PYZus{}exp}\PY{p}{)}\PY{p}{)} \PY{o}{*} \PY{n}{np}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{n}{e\PYZus{}log\PYZus{}square}\PY{p}{)}\PY{p}{)}
+            \PY{k}{return} \PY{n}{score}
+\end{Verbatim}
+
+\subsection{Training with models With the Default Paramenters}
+
+\hspace{0.5cm}To understand better how the model perform with the dataset, we will first run multiple models all with the default parameters
+
+\subsubsection{Linear Regression}
+
+\hspace{0.5cm}To understand better the performance and the capabilities of a model and have quick first insights about how the data is being pre processed and is being predicted we will run one simple model, the chosen model for that is the \href{http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LinearRegression.html}{Linear Regression}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{linear\PYZus{}model} \PY{k}{import} \PY{n}{LinearRegression}
+\PY{n}{model} \PY{o}{=} \PY{n}{LinearRegression}\PY{p}{(}\PY{p}{)}
+\PY{n}{clf} \PY{o}{=} \PY{n}{model}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{X\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{)}
+\PY{n}{y\PYZus{}pred} \PY{o}{=} \PY{n}{clf}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{X\PYZus{}test}\PY{p}{)}
+\PY{n}{final\PYZus{}score} \PY{o}{=} \PY{n}{kaggle\PYZus{}score}\PY{p}{(} \PY{n}{y\PYZus{}test}\PY{p}{,} \PY{n}{y\PYZus{}pred}\PY{p}{)}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Linear Regression Score: }\PY{l+s+si}{\PYZob{}final\PYZus{}score\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+
+\subsubsection{Lasso}
+
+\hspace{0.5cm}Changing a little the approach, we'll use another linear regression model, using L1 regularisation. The L1 regularization limits the size of the coefficients by applying a penalty equals to the absolute value of the magnitude of coefficients.
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{linear\PYZus{}model} \PY{k}{import} \PY{n}{Lasso}
+\PY{n}{model} \PY{o}{=} \PY{n}{Lasso}\PY{p}{(}\PY{n}{random\PYZus{}state}\PY{o}{=}\PY{l+m+mi}{3}\PY{p}{)}
+\PY{n}{clf} \PY{o}{=} \PY{n}{model}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{X\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{)}
+\PY{n}{y\PYZus{}pred} \PY{o}{=} \PY{n}{clf}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{X\PYZus{}test}\PY{p}{)}
+\PY{n}{final\PYZus{}score} \PY{o}{=} \PY{n}{kaggle\PYZus{}score}\PY{p}{(} \PY{n}{y\PYZus{}test}\PY{p}{,} \PY{n}{y\PYZus{}pred}\PY{p}{)}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Lasso Score: }\PY{l+s+si}{\PYZob{}final\PYZus{}score\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+
+\subsubsection{Ridge}
+
+\hspace{0.5cm}Ridge is another linear regression model, but using a L2 regularization. The L2 penalty to the coefficients is equal to the square root of the coefficients magnitudes.
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{linear\PYZus{}model} \PY{k}{import} \PY{n}{Ridge}
+\PY{n}{model} \PY{o}{=} \PY{n}{Ridge}\PY{p}{(}\PY{n}{random\PYZus{}state}\PY{o}{=}\PY{l+m+mi}{3}\PY{p}{)}
+\PY{n}{clf} \PY{o}{=} \PY{n}{model}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{X\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{)}
+\PY{n}{y\PYZus{}pred} \PY{o}{=} \PY{n}{clf}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{X\PYZus{}test}\PY{p}{)}
+\PY{n}{final\PYZus{}score} \PY{o}{=} \PY{n}{kaggle\PYZus{}score}\PY{p}{(} \PY{n}{y\PYZus{}test}\PY{p}{,} \PY{n}{y\PYZus{}pred}\PY{p}{)}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Ridge Score: }\PY{l+s+si}{\PYZob{}final\PYZus{}score\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+
+\subsubsection{Decision Tree Regressor}
+
+\hspace{0.5cm}Basically, the decision tree model works like a series of if-else questions for the different features presents in the dataset that leads to a understanding of the behaviour of the target variable according to how the features change.
+
+Oftenly, decision trees might lead to the model overfitting the train dataset if no pruning if applyed to the tree.
+
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{tree} \PY{k}{import} \PY{n}{DecisionTreeRegressor}
+\PY{n}{model} \PY{o}{=} \PY{n}{DecisionTreeRegressor}\PY{p}{(}\PY{n}{random\PYZus{}state}\PY{o}{=}\PY{l+m+mi}{3}\PY{p}{)}
+\PY{n}{clf} \PY{o}{=} \PY{n}{model}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{X\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{)}
+\PY{n}{y\PYZus{}pred} \PY{o}{=} \PY{n}{clf}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{X\PYZus{}test}\PY{p}{)}
+\PY{n}{final\PYZus{}score} \PY{o}{=} \PY{n}{kaggle\PYZus{}score}\PY{p}{(} \PY{n}{y\PYZus{}test}\PY{p}{,} \PY{n}{y\PYZus{}pred}\PY{p}{)}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Decision Tree Regressor Score: }\PY{l+s+si}{\PYZob{}final\PYZus{}score\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+
+\subsubsection{Random Forest Regressor}
+
+\hspace{0.5cm}Random Forest is an ensemble method that uses a set of slightly different decision trees to fit the model, the idea behind that is to avoid the overfitting, which is commom to decision trees, by using randomly different number of features ramdomly chosen for each decision tree, averaging their results to find a final model that is more balanced
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{ensemble} \PY{k}{import} \PY{n}{RandomForestRegressor}
+\PY{n}{model} \PY{o}{=} \PY{n}{RandomForestRegressor}\PY{p}{(}\PY{n}{random\PYZus{}state}\PY{o}{=}\PY{l+m+mi}{3}\PY{p}{)}
+\PY{n}{clf} \PY{o}{=} \PY{n}{model}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{X\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{)}
+\PY{n}{y\PYZus{}pred} \PY{o}{=} \PY{n}{clf}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{X\PYZus{}test}\PY{p}{)}
+\PY{n}{final\PYZus{}score} \PY{o}{=} \PY{n}{kaggle\PYZus{}score}\PY{p}{(} \PY{n}{y\PYZus{}test}\PY{p}{,} \PY{n}{y\PYZus{}pred}\PY{p}{)}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Random Forest Regressor Score: }\PY{l+s+si}{\PYZob{}final\PYZus{}score\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+
+\subsubsection{Gradient Boosting Regressor}
+
+\hspace{0.5cm}Gradient Boosted trees is another ensemble method that combines multiple decision trees to compose a better and more precise final model.
+
+Differently from the Random Forest, the decision trees are not created in an random way, instead the trees are created in a more serial manner, with one tree trying to correct mistakes from the previous one. The algorithm uses strong pre-prunning, leading to a final model composed of shallow trees. This carachteristic contributes to a faster training that consumes less memory
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{ensemble} \PY{k}{import} \PY{n}{GradientBoostingRegressor}
+\PY{n}{model} \PY{o}{=} \PY{n}{GradientBoostingRegressor}\PY{p}{(}\PY{n}{random\PYZus{}state}\PY{o}{=}\PY{l+m+mi}{3}\PY{p}{)}
+\PY{n}{clf} \PY{o}{=} \PY{n}{model}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{X\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{)}
+\PY{n}{y\PYZus{}pred} \PY{o}{=} \PY{n}{clf}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{X\PYZus{}test}\PY{p}{)}
+\PY{n}{final\PYZus{}score} \PY{o}{=} \PY{n}{kaggle\PYZus{}score}\PY{p}{(} \PY{n}{y\PYZus{}test}\PY{p}{,} \PY{n}{y\PYZus{}pred}\PY{p}{)}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Gradient Boosting Regressor Score: }\PY{l+s+si}{\PYZob{}final\PYZus{}score\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+
+\subsubsection{XGBoost: Extreme Gradient Boosting}
+
+\hspace{0.5cm}XGBoost is another ensemble Boosting algorithm, it uses a set shallow decision trees to produce a more powerful final model. XGBoost is portable, efficient, scalable, accurate and flexible what makes it a model worth trying in the challenge
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{k+kn}{import} \PY{n+nn}{xgboost} \PY{k}{as} \PY{n+nn}{xgb}
+\PY{n}{model} \PY{o}{=} \PY{n}{xgb}\PY{o}{.}\PY{n}{XGBRegressor}\PY{p}{(}\PY{n}{random\PYZus{}state}\PY{o}{=}\PY{l+m+mi}{3}\PY{p}{)}
+\PY{n}{clf} \PY{o}{=} \PY{n}{model}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{X\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{)}
+\PY{n}{y\PYZus{}pred} \PY{o}{=} \PY{n}{clf}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{X\PYZus{}test}\PY{p}{)}
+\PY{n}{final\PYZus{}score} \PY{o}{=} \PY{n}{kaggle\PYZus{}score}\PY{p}{(} \PY{n}{y\PYZus{}test}\PY{p}{,} \PY{n}{y\PYZus{}pred}\PY{p}{)}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{XGBoost Score: }\PY{l+s+si}{\PYZob{}final\PYZus{}score\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+
+\subsubsection{Adaboost Regressor}
+
+\hspace{0.5cm}Adaboost is another ensemble method that uses a weighted combination of weak learners (models slightly better then a random guess) to produce the final result.
+
+It's a simple iteractive method that uses a sample of the data with the same weight to all the points to train weak learners, those are used to predict the target value, which is compared to the true one. In the next iteractions the points with the bigger error receives the higher weight and the process starts again. 
+
+The training ceases when the error functions is the same between interactions or the number o the total number of estimators is reached.
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{ensemble} \PY{k}{import} \PY{n}{AdaBoostRegressor}
+\PY{n}{model} \PY{o}{=} \PY{n}{AdaBoostRegressor}\PY{p}{(}\PY{n}{random\PYZus{}state}\PY{o}{=}\PY{l+m+mi}{3}\PY{p}{)}
+\PY{n}{clf} \PY{o}{=} \PY{n}{model}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{X\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{)}
+\PY{n}{y\PYZus{}pred} \PY{o}{=} \PY{n}{clf}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{X\PYZus{}test}\PY{p}{)}
+\PY{n}{final\PYZus{}score} \PY{o}{=} \PY{n}{kaggle\PYZus{}score}\PY{p}{(} \PY{n}{y\PYZus{}test}\PY{p}{,} \PY{n}{y\PYZus{}pred}\PY{p}{)}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Gradient Boosting Regressor Score: }\PY{l+s+si}{\PYZob{}final\PYZus{}score\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+
+\subsection{Comparing the Performances}
+
+\hspace{0.5cm}As describe before the scoring function measures the error, thus a smaller error will mean a better score. Bellow are all the models evaluated in order from the best performing to the worst performing:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{Gradient Boosting:} 0.40877528042762556
+\item
+  \textbf{XGBoost:} 0.40888857095046693
+\item
+  \textbf{Ridge:} 0.4277240533226883
+\item
+  \textbf{Linear Regression:} 0.42772463461077576
+\item
+  \textbf{AdaBoost:} 0.43804008122671456
+\item
+  \textbf{Random Forest:}0.45598979449492705
+\item
+  \textbf{Decision Tree:} 0.568131730069767
+\item
+  \textbf{Lasso:} 0.6725745338011018
+\end{enumerate}
+
+\subsection{Fine tuning the best models}
+
+\hspace{0.5cm}For this section we'll only work with the 3 best performing models, that is the models with the lower values for the scores. 
+
+To fine tune we will use Cross-validation which is a technique to verify how robust and general is the model when making predictions to different datasets.
+
+In cross-validation the original data set is divided in  $k$  parts of the same size, in each interaction the model to be validated is trained using  $k−1$  parts and later predicts the target variable in the remaining part of the original dataset and a score is calculated with a determined score function.
+
+After calculating the score for the configuration of train/test datasets, the dataset which was used to test becomes part of the training dataset and one of the parts that belonged to the train dataset becomes the test dataset and the process repeats until all the  $k$ parts were used as test dataset. The final score for the model is the average of the scores found in each interaction
+
+Simultaneously with the cross validation, scikit-learn uses the GridSearch. GridSearch implements an exhaustive search method through all the different combinations of Hyperparameters that the user wants to test in the model and with the help of cross validation evaluate which combination of the hyperparameters gives the best result for the dataset.
+
+\subsubsection{Ridge}
+
+\hspace{0.5cm}The score for Ridge using the default parameters was 0.4277240533226883.
+
+The fine tuning tested the combination of the following parameters for
+the model using 3-fold cross-validation to evaluate the best result:
+
+ \begin{itemize}
+\tightlist
+\item
+  alpha: 0.5, 1.0, 3.0, 4.0, 5.0, 10.0
+\item
+  solver: \emph{auto}, \emph{least-squares} (lsqr), \emph{Stochastic
+  Average Gradient descent} (SAG), \emph{Singular Value Decomposition}
+  (SVD)
+\end{itemize}
+
+The final parameter chosen was \emph{alpha} = 5.0 and \emph{solver} =
+\emph{svd}, which had no practical improvement, with the score of 0.4277241321921506
+
+Bellow the implementation used for the fine tuning:
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{linear\PYZus{}model} \PY{k}{import} \PY{n}{Ridge}
+\PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{model\PYZus{}selection} \PY{k}{import} \PY{n}{GridSearchCV}
+\PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{metrics} \PY{k}{import} \PY{n}{make\PYZus{}scorer}
+
+\PY{n}{model} \PY{o}{=} \PY{n}{Ridge}\PY{p}{(}\PY{n}{random\PYZus{}state}\PY{o}{=}\PY{l+m+mi}{3}\PY{p}{)}
+\PY{n}{scorer} \PY{o}{=} \PY{n}{make\PYZus{}scorer}\PY{p}{(}\PY{n}{kaggle\PYZus{}score}\PY{p}{,} \PY{n}{greater\PYZus{}is\PYZus{}better}\PY{o}{=} \PY{k+kc}{False}\PY{p}{)}
+
+\PY{n}{parameters} \PY{o}{=} \PY{p}{\PYZob{}}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{alpha}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{p}{[}\PY{l+m+mf}{0.5}\PY{p}{,} \PY{l+m+mf}{1.0}\PY{p}{,} \PY{l+m+mf}{3.0}\PY{p}{,} \PY{l+m+mf}{4.0}\PY{p}{,} \PY{l+m+mf}{5.0}\PY{p}{,} \PY{l+m+mf}{10.0}\PY{p}{]}\PY{p}{,}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{solver}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{auto}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{lsqr}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{sag}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{svd}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+    \PY{p}{\PYZcb{}}
+
+\PY{n}{clf} \PY{o}{=} \PY{n}{GridSearchCV}\PY{p}{(}\PY{n}{model}\PY{p}{,} \PY{n}{param\PYZus{}grid}\PY{o}{=}\PY{n}{parameters}\PY{p}{,} \PY{n}{scoring}\PY{o}{=}\PY{n}{scorer}\PY{p}{,} \PY{n}{verbose}\PY{o}{=}\PY{l+m+mi}{10}\PY{p}{,} \PY{n}{n\PYZus{}jobs}\PY{o}{=}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{cv}\PY{o}{=}\PY{l+m+mi}{3}\PY{p}{)}
+\PY{n}{grid\PYZus{}fit} \PY{o}{=} \PY{n}{clf}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{X\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{)}
+
+\PY{n}{best\PYZus{}params} \PY{o}{=} \PY{n}{grid\PYZus{}fit}\PY{o}{.}\PY{n}{best\PYZus{}params\PYZus{}}
+\PY{n}{best\PYZus{}clf} \PY{o}{=} \PY{n}{grid\PYZus{}fit}\PY{o}{.}\PY{n}{best\PYZus{}estimator\PYZus{}}
+\PY{n}{final\PYZus{}score} \PY{o}{=} \PY{n}{kaggle\PYZus{}score}\PY{p}{(}\PY{n}{y\PYZus{}test}\PY{p}{,} \PY{n}{best\PYZus{}clf}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{X\PYZus{}test}\PY{p}{)}\PY{p}{)}
+    \PY{n}{best\PYZus{}models}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Ridge}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{p}{\PYZob{}}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{final\PYZus{}score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:}\PY{n}{final\PYZus{}score}\PY{p}{,}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{clf}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:}\PY{n}{best\PYZus{}clf}\PY{p}{,}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{params}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:}\PY{n}{best\PYZus{}params}
+    \PY{p}{\PYZcb{}}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Ridge best parameters: }\PY{l+s+si}{\PYZob{}best\PYZus{}params\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Ridge Score: }\PY{l+s+si}{\PYZob{}final\PYZus{}score\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+
+\subsubsection{Gradient Boosting Regressor}
+
+\hspace{0.5cm}The score for Gradient Boosting Regressor using the default parameters
+was 0.40877528042762556.
+
+The fine tuning tested the combination of the following parameters for
+the model using 2-fold cross-validation to evaluate the best result:
+
+\begin{itemize}
+\tightlist
+\item
+  max\_depth: 3, 5
+\item
+  n\_estimators: 100, 200
+\item
+  min\_samples\_split: 2, 6
+\item
+  learning\_rate : 0.1, 1.0
+\end{itemize}
+
+The final parameters chosen was \emph{learning\_rate}: 0.1,
+\emph{max\_depth}: 5, \emph{min\_samples\_split}: 6,
+\emph{n\_estimators}: 200, which improved the score to
+0.3985323203593734
+
+Bellow the implementation used for the fine tuning:
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{ensemble} \PY{k}{import} \PY{n}{GradientBoostingRegressor}
+\PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{model\PYZus{}selection} \PY{k}{import} \PY{n}{GridSearchCV}
+\PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{metrics} \PY{k}{import} \PY{n}{make\PYZus{}scorer}
+
+\PY{n}{model} \PY{o}{=} \PY{n}{GradientBoostingRegressor}\PY{p}{(}\PY{n}{random\PYZus{}state}\PY{o}{=}\PY{l+m+mi}{3}\PY{p}{)}
+\PY{n}{scorer} \PY{o}{=} \PY{n}{make\PYZus{}scorer}\PY{p}{(}\PY{n}{kaggle\PYZus{}score}\PY{p}{,} \PY{n}{greater\PYZus{}is\PYZus{}better}\PY{o}{=} \PY{k+kc}{False}\PY{p}{)}
+
+\PY{n}{parameters} \PY{o}{=} \PY{p}{\PYZob{}}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{max\PYZus{}depth}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{p}{[}\PY{l+m+mi}{3}\PY{p}{,} \PY{l+m+mi}{5}\PY{p}{]}\PY{p}{,}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{n\PYZus{}estimators}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{p}{[}\PY{l+m+mi}{100}\PY{p}{,} \PY{l+m+mi}{200}\PY{p}{]}\PY{p}{,}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{min\PYZus{}samples\PYZus{}split}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{p}{[}\PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{6}\PY{p}{]}\PY{p}{,}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{learning\PYZus{}rate}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{p}{[}\PY{l+m+mf}{0.1}\PY{p}{,} \PY{l+m+mf}{1.0}\PY{p}{]}
+    \PY{p}{\PYZcb{}}
+
+\PY{n}{clf} \PY{o}{=} \PY{n}{GridSearchCV}\PY{p}{(}\PY{n}{model}\PY{p}{,} \PY{n}{param\PYZus{}grid}\PY{o}{=}\PY{n}{parameters}\PY{p}{,} \PY{n}{scoring}\PY{o}{=}\PY{n}{scorer}\PY{p}{,} \PY{n}{verbose}\PY{o}{=}\PY{l+m+mi}{10}\PY{p}{,} \PY{n}{cv}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{n\PYZus{}jobs}\PY{o}{=}\PY{l+m+mi}{4}\PY{p}{)}
+\PY{n}{grid\PYZus{}fit} \PY{o}{=} \PY{n}{clf}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{X\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{)}
+
+\PY{n}{best\PYZus{}params} \PY{o}{=} \PY{n}{grid\PYZus{}fit}\PY{o}{.}\PY{n}{best\PYZus{}params\PYZus{}}
+\PY{n}{best\PYZus{}clf} \PY{o}{=} \PY{n}{grid\PYZus{}fit}\PY{o}{.}\PY{n}{best\PYZus{}estimator\PYZus{}}
+\PY{n}{final\PYZus{}score} \PY{o}{=} \PY{n}{kaggle\PYZus{}score}\PY{p}{(}\PY{n}{y\PYZus{}test}\PY{p}{,} \PY{n}{best\PYZus{}clf}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{X\PYZus{}test}\PY{p}{)}\PY{p}{)}
+\PY{n}{best\PYZus{}models}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{GradientBoost}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{p}{\PYZob{}}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{final\PYZus{}score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:}\PY{n}{final\PYZus{}score}\PY{p}{,}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{clf}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:}\PY{n}{best\PYZus{}clf}\PY{p}{,}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{params}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:}\PY{n}{best\PYZus{}params}
+    \PY{p}{\PYZcb{}}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Gradient Boosting Regressor best parameters: }\PY{l+s+si}{\PYZob{}best\PYZus{}params\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Gradient Boosting Regressor  Score: }\PY{l+s+si}{\PYZob{}final\PYZus{}score\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+
+
+\subsubsection{XGBoost}
+
+\hspace{0.5cm}The score for XGBoost Regressor using the default parameters
+was 0.409344079071674.
+
+The fine tuning tested the combination of the following parameters for
+the model using 2-fold cross-validation to evaluate the best result:
+
+\begin{itemize}
+\tightlist
+\item
+  max\_depth: 5, 8, 10
+\item
+  n\_estimators: 200, 300
+\item
+  learning\_rate: 0.05, 0.1
+\item
+  reg\_lambda: 1.0, 5
+\end{itemize}
+
+The final parameters chosen was \emph{learning\_rate}: 0.1,
+\emph{max\_depth}: 5, \emph{n\_estimators}: 300, \emph{reg\_lambda}: 5,
+which improved the score to 0.3981089784145823
+
+Bellow the implementation used for the fine tuning:
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}time}
+\PY{k+kn}{import} \PY{n+nn}{xgboost} \PY{k}{as} \PY{n+nn}{xgb}
+\PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{model\PYZus{}selection} \PY{k}{import} \PY{n}{GridSearchCV}
+\PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{metrics} \PY{k}{import} \PY{n}{make\PYZus{}scorer}
+
+\PY{n}{model} \PY{o}{=} \PY{n}{xgb}\PY{o}{.}\PY{n}{XGBRegressor}\PY{p}{(}\PY{n}{random\PYZus{}state}\PY{o}{=}\PY{l+m+mi}{3}\PY{p}{)}
+\PY{n}{scorer} \PY{o}{=} \PY{n}{make\PYZus{}scorer}\PY{p}{(}\PY{n}{kaggle\PYZus{}score}\PY{p}{,} \PY{n}{greater\PYZus{}is\PYZus{}better}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}
+
+\PY{n}{parameters} \PY{o}{=} \PY{p}{\PYZob{}}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{max\PYZus{}depth}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{p}{[}\PY{l+m+mi}{5}\PY{p}{,} \PY{l+m+mi}{8}\PY{p}{,} \PY{l+m+mi}{10}\PY{p}{]}\PY{p}{,}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{n\PYZus{}estimators}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{p}{[}\PY{l+m+mi}{200}\PY{p}{,} \PY{l+m+mi}{300}\PY{p}{]}\PY{p}{,}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{learning\PYZus{}rate}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{p}{[}\PY{l+m+mf}{0.05}\PY{p}{,} \PY{l+m+mf}{0.1}\PY{p}{,}\PY{p}{]}\PY{p}{,}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{reg\PYZus{}lambda}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{p}{[}\PY{l+m+mf}{1.0}\PY{p}{,} \PY{l+m+mi}{5}\PY{p}{]} \PY{p}{\PYZcb{}}
+
+\PY{n}{clf} \PY{o}{=} \PY{n}{GridSearchCV}\PY{p}{(}\PY{n}{model}\PY{p}{,} \PY{n}{param\PYZus{}grid}\PY{o}{=}\PY{n}{parameters}\PY{p}{,} \PY{n}{scoring}\PY{o}{=}\PY{n}{scorer}\PY{p}{,} \PY{n}{verbose}\PY{o}{=}\PY{l+m+mi}{10}\PY{p}{,} \PY{n}{cv}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{n\PYZus{}jobs}\PY{o}{=}\PY{l+m+mi}{4}\PY{p}{)}
+\PY{n}{grid\PYZus{}fit} \PY{o}{=} \PY{n}{clf}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{X\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{)}
+
+\PY{n}{best\PYZus{}params} \PY{o}{=} \PY{n}{grid\PYZus{}fit}\PY{o}{.}\PY{n}{best\PYZus{}params\PYZus{}}
+\PY{n}{best\PYZus{}clf} \PY{o}{=} \PY{n}{grid\PYZus{}fit}\PY{o}{.}\PY{n}{best\PYZus{}estimator\PYZus{}}
+\PY{n}{final\PYZus{}score} \PY{o}{=} \PY{n}{kaggle\PYZus{}score}\PY{p}{(}\PY{n}{y\PYZus{}test}\PY{p}{,} \PY{n}{best\PYZus{}clf}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{X\PYZus{}test}\PY{p}{)}\PY{p}{)}
+\PY{n}{best\PYZus{}models}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{XGBoost}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{p}{\PYZob{}}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{final\PYZus{}score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:}\PY{n}{final\PYZus{}score}\PY{p}{,}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{clf}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:}\PY{n}{best\PYZus{}clf}\PY{p}{,}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{params}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:}\PY{n}{best\PYZus{}params}
+    \PY{p}{\PYZcb{}}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{XGBoost best parameters: }\PY{l+s+si}{\PYZob{}best\PYZus{}params\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{XGBoost Score: }\PY{l+s+si}{\PYZob{}final\PYZus{}score\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+
+
+\subsection{Hyperparameters Fine Tuning Analysis}
+
+
+\hspace{0.5cm}After fine tuning the 3 best performing models, the on that presented
+the best score was once again the XGBoost. One thing worth noticing is
+the average time used to validate each of the parameters:
+
+\begin{itemize}
+\tightlist
+\item
+  Ridge: 72 fits run in 3 minutes and 35 seconds
+\item
+  Gradient Boosting: 32 fits in 58 minutes and 6 seconds
+\item
+  XGBoost: 48 fits in 2 hours, 4 minutes and 29 second
+\end{itemize}
+
+Also, the gain obtained in this phase was quite small, specially in the
+Ridge Model:
+
+\begin{itemize}
+\tightlist
+\item
+  XGBoost: 0.010779592535884619
+\item
+  Gradient Boosting: 0.01024296006825215
+\item
+  Ridge: 7.886946229440639e-08
+\end{itemize}
+
+The final score after tuning the Hyperparamenters are:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  XGBoost: 0.39852413102654594
+\item
+  Gradient Boosting: 0.3985323203593734
+\item
+  Ridge: 0.4277241321921506
+\end{enumerate}
+
+
+\section{Predicting the Original Test Dataset and submitting to Kaggle}
+
+\hspace{0.5cm}The Kaggle challenge was already finished, but still accepts late
+submissions, so we'll use our 3 best models after the fine tuning and
+make the late submission to get the real submission score.
+
+\subsection{Preparing the Test Dataset}
+
+\hspace{0.5cm}Before applying the model to the original test dataset, we must create the same features that were created in the model exploration and fine tuning.
+
+Also, the dimensions for train and test dataset must be the same, with the same column names. As we dropped any data for trips with 0 or 9 passengers, the columns generated with the \emph{pd.get\_dummies} (passenger\_count\_0 and passenger\_count\_9) must also be dropped in the test dataset
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{df\PYZus{}test} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{n}{PATH\PYZus{}TEST\PYZus{}DATASET}\PY{p}{,} \PY{n}{infer\PYZus{}datetime\PYZus{}format}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,}
+                        \PY{n}{parse\PYZus{}dates}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{pickup\PYZus{}datetime}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{index\PYZus{}col}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{id}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+\PY{n}{df\PYZus{}test}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{pickup\PYZus{}date}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{df\PYZus{}test}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{pickup\PYZus{}datetime}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{dt}\PY{o}{.}\PY{n}{date}
+\PY{n}{df\PYZus{}test}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{pickup\PYZus{}hour}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{df\PYZus{}test}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{pickup\PYZus{}datetime}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{dt}\PY{o}{.}\PY{n}{hour}
+\PY{n}{df\PYZus{}test}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{pickup\PYZus{}weekday}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{df\PYZus{}test}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{pickup\PYZus{}datetime}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{dt}\PY{o}{.}\PY{n}{day\PYZus{}name}\PY{p}{(}\PY{p}{)}
+
+\PY{n}{holidays} \PY{o}{=} \PY{p}{[}\PY{n}{day}\PY{o}{.}\PY{n}{date}\PY{p}{(}\PY{p}{)} \PY{k}{for} \PY{n}{day} \PY{o+ow}{in} \PY{n}{calendar}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{holidays}\PY{p}{(}
+                                    \PY{n}{start}\PY{o}{=}\PY{n}{df\PYZus{}test}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{pickup\PYZus{}date}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{min}\PY{p}{(}\PY{p}{)}\PY{p}{,}
+                                    \PY{n}{end}\PY{o}{=}\PY{n}{df\PYZus{}test}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{pickup\PYZus{}date}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{max}\PY{p}{(}\PY{p}{)}\PY{p}{)}\PY{p}{]}
+\PY{n}{df\PYZus{}test}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{holiday}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{df\PYZus{}test}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{pickup\PYZus{}date}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{isin}\PY{p}{(}\PY{n}{holidays}\PY{p}{)}
+\PY{n}{df\PYZus{}test}\PY{o}{.}\PY{n}{drop}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{pickup\PYZus{}date}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{inplace}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+
+\PY{n}{df\PYZus{}test}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{distance}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{calculate\PYZus{}city\PYZus{}block\PYZus{}distance}\PY{p}{(}\PY{n}{df\PYZus{}test}\PY{p}{)}
+\PY{n}{df\PYZus{}test}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{distance}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{log}\PY{p}{(}\PY{n}{df\PYZus{}test}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{distance}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{+} \PY{l+m+mi}{1}\PY{p}{)}
+
+\PY{n}{df\PYZus{}test} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{get\PYZus{}dummies}\PY{p}{(}\PY{n}{df\PYZus{}test}\PY{p}{,} \PY{n}{columns}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{vendor\PYZus{}id}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{passenger\PYZus{}count}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} 
+                                    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{store\PYZus{}and\PYZus{}fwd\PYZus{}flag}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{pickup\PYZus{}weekday}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+                                    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{pickup\PYZus{}hour}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{holiday}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+
+\PY{n}{df\PYZus{}test}\PY{o}{.}\PY{n}{drop}\PY{p}{(}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{pickup\PYZus{}datetime}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{pickup\PYZus{}longitude}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+                \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{pickup\PYZus{}latitude}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{dropoff\PYZus{}longitude}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{dropoff\PYZus{}latitude}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,}
+                \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{inplace}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+\end{Verbatim}
+
+\subsection{Preparing the Submission File}
+
+\hspace{0.5cm}The submission file must be formatted to be accepted by the automated submission scoring system. A sample of the final format is given with the datasets in the Challenge's page.
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{import} \PY{n+nn}{os}
+\PY{n}{BASE\PYZus{}PATH\PYZus{}KAGGLE\PYZus{}SUBMISISON} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{./out}\PY{l+s+s1}{\PYZsq{}}
+
+\PY{k}{def} \PY{n+nf}{create\PYZus{}txt\PYZus{}file\PYZus{}for\PYZus{}submission}\PY{p}{(}\PY{n}{df\PYZus{}data}\PY{p}{,} \PY{n}{file\PYZus{}name}\PY{p}{)}\PY{p}{:}
+    
+    \PY{n}{final\PYZus{}path} \PY{o}{=} \PY{n}{os}\PY{o}{.}\PY{n}{path}\PY{o}{.}\PY{n}{abspath}\PY{p}{(}\PY{n}{os}\PY{o}{.}\PY{n}{path}\PY{o}{.}\PY{n}{join}\PY{p}{(}\PY{n}{BASE\PYZus{}PATH\PYZus{}KAGGLE\PYZus{}SUBMISISON}\PY{p}{,}\PY{n}{file\PYZus{}name}\PY{p}{)}\PY{p}{)}
+    \PY{n}{final\PYZus{}path} \PY{o}{+}\PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{.txt}\PY{l+s+s1}{\PYZsq{}}
+    \PY{n}{df\PYZus{}data}\PY{o}{.}\PY{n}{index}\PY{o}{.}\PY{n}{name} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{id}\PY{l+s+s1}{\PYZsq{}}
+    \PY{n+nb}{print}\PY{p}{(}\PY{n}{final\PYZus{}path}\PY{p}{)}
+    \PY{n}{df\PYZus{}data}\PY{o}{.}\PY{n}{to\PYZus{}csv}\PY{p}{(}\PY{n}{final\PYZus{}path}\PY{p}{,}
+                    \PY{n}{sep}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{,}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+                    \PY{n}{header}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,}
+                    \PY{n}{na\PYZus{}rep}\PY{o}{=}\PY{n}{df\PYZus{}data}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{trip\PYZus{}duration}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{quantile}\PY{p}{(}\PY{l+m+mf}{0.5}\PY{p}{)}
+                    \PY{p}{)}
+           
+\end{Verbatim}
+
+\subsection{Predicting the trip duration for the original test dataset}
+
+\hspace{0.5cm}As we stored the best models we'll now use an empty copy of them with the same parameters and train that again now with the whole original train dataset to get a better model for the final submission.
+
+After predicting the values for trip duration one submission file will be prepared for each model.
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{for} \PY{n}{model\PYZus{}name}\PY{p}{,} \PY{n}{model\PYZus{}specs} \PY{o+ow}{in} \PY{n}{best\PYZus{}models}\PY{o}{.}\PY{n}{items}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+    \PY{n}{clf} \PY{o}{=} \PY{n}{sklearn}\PY{o}{.}\PY{n}{base}\PY{o}{.}\PY{n}{clone}\PY{p}{(}\PY{n}{model\PYZus{}specs}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{clf}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+    \PY{n}{clf}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{df\PYZus{}X\PYZus{}train}\PY{p}{,} \PY{n}{df\PYZus{}y\PYZus{}train}\PY{p}{)}
+    \PY{n}{y\PYZus{}predict} \PY{o}{=} \PY{n}{clf}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{df\PYZus{}test}\PY{p}{)}
+    \PY{n}{y\PYZus{}predict} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{exp}\PY{p}{(}\PY{n}{y\PYZus{}predict}\PY{p}{)} \PY{o}{\PYZhy{}} \PY{l+m+mi}{1}
+    \PY{n}{df\PYZus{}result} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{n}{y\PYZus{}predict}\PY{p}{,} \PY{n}{columns}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{trip\PYZus{}duration}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{index}\PY{o}{=}\PY{n}{df\PYZus{}test}\PY{o}{.}\PY{n}{index}\PY{o}{.}\PY{n}{values}\PY{p}{)}
+    \PY{n}{create\PYZus{}txt\PYZus{}file\PYZus{}for\PYZus{}submission}\PY{p}{(}\PY{n}{df\PYZus{}result}\PY{p}{,} \PY{n}{model\PYZus{}name}\PY{p}{)}
+\end{Verbatim}
+
+\subsection{The final results}
+
+\hspace{0.5cm}After submiting the prediction for each model, the final Scores are as follows:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  XGBoost: 0.49571
+\item
+  Gradient Boost: 0.49750
+\item
+  Ridge: 0.51109
+\end{enumerate}
+
+\section{Achievements and Improvements}
+
+\hspace{0.5cm}Throughout the project, many topics related do data manipulation and
+visualization were covered, from opening the files, describing each of
+the columns, checking for null data, plotting the distributions, checking
+outliers, creating new features combining multiple columns, building
+simple models and evaluate them, fining tuning the best.
+
+The results achieved are coherent with the proposal, in which a score of
+0.5 was the final goal.
+
+In the matter of improvements, the first step would be to play more with
+the hyperparameters to fine tune them even more, another point of
+improvement is to understand better in what areas the traffic is more
+intense by using clusterization for example, also is a good idea to add
+more sources of data like weather that have a big impact in trip
+duration.
+
+\begin{thebibliography}{1}
+\bibitem{land_speed_record} 
+1997: Land Speed Record,
+\\\texttt{http://www.guinnessworldrecords.com/news/60at60/2015/8/1997-land-speed-record-392880}
+
+\bibitem{challenge_site} 
+New York City Taxi Trip Duration,
+\\\texttt{https://www.kaggle.com/c/nyc-taxi-trip-duration}
+
+\bibitem{lat_long_round_radius} 
+Decimal Degrees,
+\\\texttt{https://en.wikipedia.org/wiki/Decimal\_degrees}
+
+
+\end{thebibliography}
+\end{document}
